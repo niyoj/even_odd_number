@@ -1,0 +1,6 @@
+## ignoring swap files
+*.swap
+
+##ignoring executable files
+*.out
+*.exe
