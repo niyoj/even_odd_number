@@ -17,5 +17,6 @@ Even odd is a project where we intend to find maximum possible way to check weth
 
 ## Our approaches
 * We used simple modulus operator to check wether a number is perfectly divisible by 2 or not in `modulus.c`.
-* we used bitwise and operator **&** as even number always ends with 0 and odd with 1 and using **&** operator if it is odd output is non-zero (true) else output is zero (false) in `bitwise_and.c`. 
+* We used bitwise and operator **&** as even number always ends with 0 and odd with 1 and using **&** operator if it is odd output is non-zero (true) else output is zero (false) in `bitwise_and.c`. 
+* We used looping from 1 to n times and in each loop either we add any variable by 1 or subtract it by 1. First it is added, and in second it is decremented and this loop continues. Hence, +1 and -1 is repeated even times for even number so, for even output is 0 (true) and for odd it is non-zero (false) in `loop_1.c`.
 
