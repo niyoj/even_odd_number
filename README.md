@@ -9,7 +9,7 @@ Even odd is a project where we intend to find maximum possible way to check weth
 2. Read the README.md file which consists what approach we have taken so far. Such that, your solution would be unique.
 3. You can code in any language, but be sure to keep your code in the respective directory for your programming language. If you don't find yours, you can create one.
 3. Code, and create a pull request.
-4. And yeah, don't forget to write what you have done in `Our approaches` section in README.md file
+4. And yeah, don't forget to write what you have done in `Our approaches` section in README.md file, and mention yourself in `Our contributors` section.
 
 ## Our contributors
 * Niyoj Oli [@niyoj](https://github.com/niyoj)
