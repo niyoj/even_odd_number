@@ -26,3 +26,4 @@ Even odd is a project where we intend to find maximum possible way to check weth
 * We used concept that even numbers end with 0 in binary and odd numbers end with 1 in binary form in `shift.c`.
 * We used concept that when a number is operated with 1 by `bitwise XOR operator (^)` the bit of the last digit is off by 1, and on adding 1 to the original number returns the originality for even numbers, not in case for odd numbers. So, using this concept we checked whether the number is even or odd in `bitwise_xor.c`.
 * Check odd/even by running loop half the entered value and check the final value if it is 0 or not. If so, it is even else odd.
+Odd-Even file
