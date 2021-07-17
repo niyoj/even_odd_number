@@ -1,4 +1,4 @@
-# Even Odd 
+# [Even Odd](https://github.com/niyoj/even_odd_number) 
 Even odd is a project where we intend to find maximum possible way to check wether a number is even or odd. The main objectives of the program is;
 * To demonstrate that there is not just a highway in programming, there are many ways and it depends on your problem solving abillity,
 * To share each other approach to a simple solution,
