@@ -27,13 +27,14 @@ Your number is even.
 """
 import sys  # import python's core system module.
 import traceback
-from collections.abc import Callable
 from io import StringIO  # StringIO is like an in-memory file.
+
+# Modules for typehinting
+from collections.abc import Callable
+from typing import Optional
 
 # We are going to override the stdin and stdout of python,
 # so we will just store the originals to revert back if needed.
-from typing import Optional
-
 old_stdin, old_stdout = sys.stdin, sys.stdout
 
 
