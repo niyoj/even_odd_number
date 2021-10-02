@@ -32,7 +32,7 @@ Notes
 -----
 The is_even function can be verified by calling this script via the test.py program.
 
-python test.py lcm.py (or) test lcm
+python test.py lcm.py
 """
 
 from math import lcm  # import only the lcm function from python's math library
@@ -60,7 +60,7 @@ def is_even(number: int) -> bool:
     """
 
     if not isinstance(number, int):  # Check if the given value is an integer
-        # If so, then raise TypeError
+        # If not so, then raise TypeError
         raise TypeError(f'Expected parameter (number) to be an integer, but got as {type(number).__name__} ({number})')
 
     # Now we verified that the given value is an integer.
@@ -86,7 +86,7 @@ def is_even(number: int) -> bool:
 #     program to run if we run this file directly.
 #
 #     If we didnt add this statement, then
-#     our below programme will run everytime we import it.
+#     our below program will run everytime we import it.
 #
 #     So to avoid that python has __name__.
 #     __name__ will be "__main__" if this program is run directly
