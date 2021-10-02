@@ -35,7 +35,14 @@ from io import StringIO  # StringIO is like an in-memory file.
 
 # We are going to override the stdin and stdout of python,
 # so we will just store the originals to revert back if needed.
+from typing import Optional
+
 old_stdin, old_stdout = sys.stdin, sys.stdout
+
+
+# Function old_print to print to the actual stdout
+def old_print(*args, **kwargs):
+    return print(*args, **kwargs, file = old_stdout)
 
 
 # Create an in-memory file which supports reading and writing.
@@ -45,6 +52,7 @@ class Buffer(StringIO):
 
     We will use this as the new stdin and stdout of python.
     """
+
     def __init__(self):
         """
         Initiates the buffer to be writeable,
@@ -102,6 +110,8 @@ buffer = Buffer()
 # stdout - is where python prints the output to.
 # We change these two to our buffer.
 sys.stdin, sys.stdout = buffer, buffer
+# Variable to check if we passed all the tests.
+all_tests_passed = True
 
 # Check if the user passed any file.
 # Of course, we need a file to check.
@@ -122,17 +132,19 @@ with open(sys.argv[1]) as file:
     compiled = compile(file.read(), 'to_check', 'exec')
 
 
-def run(method: Callable, *args):
+def run(function: Callable, *args):
     """
     The function to run the compiled code.
 
     Parameters
     ----------
-    method : Callable
+    function : Callable
         The function to call after executing the program.
     args : Any
-        The args to pass to the method.
+        The args to pass to the function.
     """
+    global all_tests_passed
+
     # noinspection PyBroadException
     try:
         # Its good to have the (if __name__ == '__main__') statement,
@@ -144,10 +156,16 @@ def run(method: Callable, *args):
     except Exception:
         # Despite the error occurred, we want our program to run
         # and display all the errors to the user.
-        traceback.print_exc(file=old_stdout)
+        old_print('')
+        traceback.print_exc(file = old_stdout)
     finally:
-        # Call the post run method with the args.
-        method(*args)
+        # Call the post run function with the args.
+        result = function(*args)
+        # Check if the function gave any output.
+        if result:
+            # If it gave that means, test verification failed.
+            all_tests_passed = False  # Set all test passed to False.
+            old_print(result)  # Print the output from the function.
 
 
 # Create a list to store all the functions
@@ -155,7 +173,7 @@ def run(method: Callable, *args):
 test_functions = []
 
 
-def tester(*values: str) -> Callable[[Callable[[str]]], Callable[[]]]:
+def tester(*values: str) -> Callable[[Callable[[str], Optional[str]]], Callable[[]]]:
     """
     This function simplifies the
     writing of the test functions.
@@ -170,22 +188,23 @@ def tester(*values: str) -> Callable[[Callable[[str]]], Callable[[]]]:
     The values passed will not be run as a single test.
 
     Each value will be mapped to its own test,
-    but with the same method passed.
+    but with the same function passed.
     """
 
     # We have the values to check, now all we need is a function
     # that will process the results of the other program.
     # So we return a function which gets the post process function.
-    def get_method(method: Callable[[str]]) -> Callable[[]]:
+    def get_function(function: Callable[[str], Optional[str]]) -> Callable[[]]:
         """
         This function is a decorator which will return the main function
         which runs the program and the post process function.
 
         Parameters
         ----------
-        method : Callable
+        function : Callable
             This is the function which be called after executing the other program.
         """
+
         def run_function():
             """
             This is the main function, for each value passed,
@@ -195,18 +214,19 @@ def tester(*values: str) -> Callable[[Callable[[str]]], Callable[[]]]:
             # Loop through the values.
             for value in values:
                 buffer.input_val = value  # Set the input_val to the current val in loop.
-                run(method, value)  # Run the test.
+                run(function, value)  # Run the test.
 
         # Add this function to our test_functions so that,
         # we can execute all the functions from that list.
         test_functions.append(run_function)
         return run_function
-    return get_method
+
+    return get_function
 
 
 # All the tests.
 @tester('2', '-2')
-def test_even(value: str):
+def test_even(value: str) -> Optional[str]:
     """
     Test if the program properly displays "even",
     for these small even integers(positive and negative).
@@ -223,11 +243,11 @@ def test_even(value: str):
     # Check if "even" is in the first line.
     if 'even' not in first_line:
         # If not just print that the test verification for the number failed
-        print(f'Failed to verify {value} as an even integer.\n', file = old_stdout)
+        return f'Failed to verify {value} as an even integer.'
 
 
 @tester('1', '-1')
-def test_odd(value: str):
+def test_odd(value: str) -> Optional[str]:
     """
     Test if the program properly displays "odd",
     for these small odd integers(positive and negative).
@@ -244,11 +264,11 @@ def test_odd(value: str):
     # Check if "odd" is in the first line.
     if 'odd' not in first_line:
         # If not just print that the test verification for the number failed
-        print(f'Failed to verify {value} as an odd integer.\n', file = old_stdout)
+        return f'Failed to verify {value} as an odd integer.'
 
 
 @tester('89898', '-89898')
-def test_even_large(value: str):
+def test_even_large(value: str) -> Optional[str]:
     """
     Test if the program properly displays "even",
     for these large even integers(positive and negative).
@@ -265,11 +285,11 @@ def test_even_large(value: str):
     # Check if "even" is in the first line.
     if 'even' not in first_line:
         # If not just print that the test verification for the number failed
-        print(f'Failed to verify {value} as an even integer.\n', file = old_stdout)
+        return f'Failed to verify {value} as an even integer.'
 
 
 @tester('98989', '-98989')
-def test_odd_large(value: str):
+def test_odd_large(value: str) -> Optional[str]:
     """
     Test if the program properly displays "odd",
     for these large odd integers(positive and negative).
@@ -286,10 +306,14 @@ def test_odd_large(value: str):
     # Check if "odd" is in the first line.
     if 'odd' not in first_line:
         # If not just print that the test verification for the number failed
-        print(f'Failed to verify {value} as an odd integer.\n', file = old_stdout)
+        return f'Failed to verify {value} as an odd integer.'
 
 
 # Since we already added all the test functions to this list,
-# we can just iterate through the list and run the function
-for function in test_functions:
-    function()
+# we can just iterate through the list and run the function.
+for test_function in test_functions:
+    test_function()
+
+# Check if we passed all the checks
+if all_tests_passed:
+    old_print('Congrats, You passed all the test!!')
