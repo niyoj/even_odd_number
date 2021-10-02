@@ -17,15 +17,12 @@ whether its even or not in the next line.
 Example of Valid Program
 ------------------------
 Enter your number - (input)
-
 Your number is even.
 
 Example of Invalid Program
 ------------------------
 Enter your number - (input)
-
 Please wait while i am calculating.
-
 Your number is even.
 """
 import sys  # import python's core system module.
