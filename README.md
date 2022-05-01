@@ -16,6 +16,7 @@ Even odd is a project where we intend to find maximum possible way to check whet
 * Om Prakash Sharma [@ompiepy](https://github.com/ompiepy)
 * Khemraj Shrestha [@Khemraj-bit](https://github.com/Khemraj-bit)
 * Ajay Ratnam [@ajratnam](https://github.com/ajratnam)
+* [@AC17dollars](https://github.com/ac17dollars)
 * **You too can be here.**
 
 ## Our approaches
@@ -29,3 +30,4 @@ Even odd is a project where we intend to find maximum possible way to check whet
 * We used concept that an even number is made from addition of n/2 number of 2. So, we subtracted the number by 2 continuously until the number was less than or equal to zero. Since, even numbers were made from addition of 2 for (n/2) times, the output was 0, but in case of odd numbers the output was 1 or -1. So, using this concept we checked whether the number is even or odd in `loop_2.c`.
 * We used the same concept of using modulus operator as that in `modulus.c` but the difference is only that for conditional flow of control we used if-else statement in `modulus.c` while we used ternary operator in `ternary.c`.
 * We used concept that the lcm of 2 and an even number is itself, But for an odd number it is not. So, using this concept we checked whether a number is even or odd in `lcm.py`.
+* Used bitwise and '&' to find out odd or even and chained the result with logical and '&&' to execute printf() function in `nobranching.c`
